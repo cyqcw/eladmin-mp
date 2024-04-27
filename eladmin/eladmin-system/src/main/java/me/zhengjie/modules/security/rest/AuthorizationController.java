@@ -78,8 +78,10 @@ public class AuthorizationController {
     public ResponseEntity<Object> login(@Validated @RequestBody AuthUserDto authUser, HttpServletRequest request) throws Exception {
         // 密码解密
         String password = RsaUtils.decryptByPrivateKey(RsaProperties.privateKey, authUser.getPassword());
+        log.info("用户登录：{}, password: {}", authUser.getUsername(), password);
         // 查询验证码
         String code = (String) redisUtils.get(authUser.getUuid());
+        log.info("验证码：{}", code);
         // 清除验证码
         redisUtils.del(authUser.getUuid());
         if (StringUtils.isBlank(code)) {
@@ -97,6 +99,7 @@ public class AuthorizationController {
         // Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         // SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = tokenProvider.createToken(authentication);
+        log.info("用户登录：{}, token: {}", authUser.getUsername(), token);
         final JwtUserDto jwtUserDto = (JwtUserDto) authentication.getPrincipal();
         // 返回 token 与 用户信息
         Map<String, Object> authInfo = new HashMap<String, Object>(2) {{
@@ -116,7 +119,9 @@ public class AuthorizationController {
     @ApiOperation("获取用户信息")
     @GetMapping(value = "/info")
     public ResponseEntity<UserDetails> getUserInfo() {
-        return ResponseEntity.ok(SecurityUtils.getCurrentUser());
+        ResponseEntity<UserDetails> responseEntity = ResponseEntity.ok(SecurityUtils.getCurrentUser());
+        log.info("获取用户信息：{}", responseEntity);
+        return responseEntity;
     }
 
     @ApiOperation("获取验证码")
@@ -145,6 +150,7 @@ public class AuthorizationController {
     public ResponseEntity<Object> logout(HttpServletRequest request) {
         String token = tokenProvider.getToken(request);
         onlineUserService.logout(token);
+        log.info("退出登录：{}", token);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
