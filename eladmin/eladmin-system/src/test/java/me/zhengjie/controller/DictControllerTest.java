@@ -76,8 +76,8 @@ public class DictControllerTest {
     public void testCreateDict() throws Exception {
         // 创建新字典对象
         Dict newDict = new Dict();
-        newDict.setLabel("Test Label");
-        newDict.setValue("test_value");
+        newDict.setName("Test Label");
+        newDict.setDescription("test_value");
 
         // 执行创建字典方法，并断言返回状态码是否为 201
         mvc.perform(MockMvcRequestBuilders.post("/api/dict")
