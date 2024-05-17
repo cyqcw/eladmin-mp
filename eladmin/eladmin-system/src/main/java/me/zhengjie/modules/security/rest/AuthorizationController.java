@@ -79,17 +79,17 @@ public class AuthorizationController {
         // 密码解密
         String password = RsaUtils.decryptByPrivateKey(RsaProperties.privateKey, authUser.getPassword());
         log.info("用户登录：{}, password: {}", authUser.getUsername(), password);
-        // 查询验证码
-        String code = (String) redisUtils.get(authUser.getUuid());
-        log.info("验证码：{}", code);
-        // 清除验证码
-        redisUtils.del(authUser.getUuid());
-        if (StringUtils.isBlank(code)) {
-            throw new BadRequestException("验证码不存在或已过期");
-        }
-        if (StringUtils.isBlank(authUser.getCode()) || !authUser.getCode().equalsIgnoreCase(code)) {
-            throw new BadRequestException("验证码错误");
-        }
+//        // 查询验证码
+//        String code = (String) redisUtils.get(authUser.getUuid());
+//        log.info("验证码：{}", code);
+//        // 清除验证码
+//        redisUtils.del(authUser.getUuid());
+//        if (StringUtils.isBlank(code)) {
+//            throw new BadRequestException("验证码不存在或已过期");
+//        }
+//        if (StringUtils.isBlank(authUser.getCode()) || !authUser.getCode().equalsIgnoreCase(code)) {
+//            throw new BadRequestException("验证码错误");
+//        }
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(authUser.getUsername(), password);
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);

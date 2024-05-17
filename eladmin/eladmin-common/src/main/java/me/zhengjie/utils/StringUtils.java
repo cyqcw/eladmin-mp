@@ -18,8 +18,7 @@ package me.zhengjie.utils;
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
 import lombok.extern.slf4j.Slf4j;
-import net.dreamlu.mica.ip2region.core.Ip2regionSearcher;
-import net.dreamlu.mica.ip2region.core.IpInfo;
+
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Field;
 import java.net.InetAddress;
@@ -35,13 +34,15 @@ import java.util.*;
 @SuppressWarnings({"unchecked","all"})
 public class StringUtils extends org.apache.commons.lang3.StringUtils {
 
+
     private static final char SEPARATOR = '_';
     private static final String UNKNOWN = "unknown";
 
-    /**
-     * 注入bean
-     */
-    private final static Ip2regionSearcher IP_SEARCHER = SpringContextHolder.getBean(Ip2regionSearcher.class);
+//    /**
+//     * 注入bean
+//     */
+//    private final static Ip2regionSearcher IP_SEARCHER = SpringContextHolder.getBean(Ip2regionSearcher.class);
+
 
     /**
      * 驼峰命名法工具
@@ -162,11 +163,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
      * 根据ip获取详细地址
      */
     public static String getCityInfo(String ip) {
-        IpInfo ipInfo = IP_SEARCHER.memorySearch(ip);
-        if(ipInfo != null){
-            return ipInfo.getAddress();
-        }
-        return null;
+        return PureNetUtils.getAddress(ip);
     }
 
     public static String getBrowser(HttpServletRequest request) {
@@ -179,7 +176,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
      * 获得当天是周几
      */
     public static String getWeekDay() {
-        String[] weekDays = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+        String[] weekDays = {"周日", "周一", "周二", "周三", "周四", "周五", "周六"};
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
 
