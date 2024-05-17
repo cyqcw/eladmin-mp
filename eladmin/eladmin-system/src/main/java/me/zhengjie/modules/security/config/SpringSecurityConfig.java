@@ -135,6 +135,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 所有请求都需要认证
                 .anyRequest().authenticated()
                 .and().apply(securityConfigurerAdapter());
+//                .anyRequest().permitAll();
     }
 
     private TokenConfigurer securityConfigurerAdapter() {

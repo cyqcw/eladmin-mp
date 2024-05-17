@@ -99,7 +99,6 @@ public class AuthorizationController {
         // Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         // SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = tokenProvider.createToken(authentication);
-        log.info("用户登录：{}, token: {}", authUser.getUsername(), token);
         final JwtUserDto jwtUserDto = (JwtUserDto) authentication.getPrincipal();
         // 返回 token 与 用户信息
         Map<String, Object> authInfo = new HashMap<String, Object>(2) {{
@@ -113,6 +112,7 @@ public class AuthorizationController {
         // 保存在线信息
         onlineUserService.save(jwtUserDto, token, request);
         // 返回登录信息
+        log.info("用户登录成功：{}", authInfo);
         return ResponseEntity.ok(authInfo);
     }
 

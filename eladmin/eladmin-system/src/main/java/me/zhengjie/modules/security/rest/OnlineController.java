@@ -18,6 +18,7 @@ package me.zhengjie.modules.security.rest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import me.zhengjie.modules.security.service.OnlineUserService;
 import me.zhengjie.modules.security.service.dto.OnlineUserDto;
 import me.zhengjie.utils.EncryptUtils;
@@ -38,6 +39,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 @RequestMapping("/auth/online")
 @Api(tags = "系统：在线用户管理")
+@Slf4j
 public class OnlineController {
 
     private final OnlineUserService onlineUserService;
@@ -46,7 +48,9 @@ public class OnlineController {
     @GetMapping
     @PreAuthorize("@el.check()")
     public ResponseEntity<PageResult<OnlineUserDto>> queryOnlineUser(String username, Pageable pageable){
-        return new ResponseEntity<>(onlineUserService.getAll(username, pageable),HttpStatus.OK);
+        PageResult<OnlineUserDto> all = onlineUserService.getAll(username, pageable);
+        log.info("查询在线用户: {}", all.getContent());
+        return new ResponseEntity<>(all, HttpStatus.OK);
     }
 
     @ApiOperation("导出数据")

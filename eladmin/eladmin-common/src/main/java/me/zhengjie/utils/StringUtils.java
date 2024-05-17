@@ -167,9 +167,10 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
     }
 
     public static String getBrowser(HttpServletRequest request) {
-        UserAgent ua = UserAgentUtil.parse(request.getHeader("User-Agent"));
-        String browser = ua.getBrowser().toString() + " " + ua.getVersion();
-        return browser.replace(".0.0.0","");
+//        UserAgent ua = UserAgentUtil.parse(request.getHeader("User-Agent"));
+//        String browser = ua.getBrowser().toString() + " " + ua.getVersion();
+//        return browser.replace(".0.0.0","");
+        return "未知位置";
     }
 
     /**

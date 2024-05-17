@@ -1,5 +1,14 @@
 <h1 style="text-align: center">ELADMIN 后台管理系统</h1>
 
+
+### 公钥
+```text
+MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBANL378k3RiZHWx5AfJqdH9xRNBmD9wGD2iRe41HdTNF8RUhNnHit5NpMNtGL0NPTSSpPjjI1kJfVorRvaQerUgkCAwEAAQ==
+```
+
+
+
+
 #### 项目简介
 一个基于 Spring Boot 2.6.4 、 Mybatis-Plus、 JWT、Spring Security、Redis、Vue的前后端分离的后台管理系统
 

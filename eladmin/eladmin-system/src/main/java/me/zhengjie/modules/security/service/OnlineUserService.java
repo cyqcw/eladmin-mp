@@ -95,6 +95,7 @@ public class OnlineUserService {
             onlineUserDtos.add((OnlineUserDto) redisUtils.get(key));
         }
         onlineUserDtos.sort((o1, o2) -> o2.getLoginTime().compareTo(o1.getLoginTime()));
+        log.info("onlineUserDtos: {}", onlineUserDtos);
         return onlineUserDtos;
     }
 

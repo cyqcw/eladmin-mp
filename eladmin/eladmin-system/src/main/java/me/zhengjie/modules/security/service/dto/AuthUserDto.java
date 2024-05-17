@@ -15,16 +15,17 @@
  */
 package me.zhengjie.modules.security.service.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+
 import javax.validation.constraints.NotBlank;
 
 /**
  * @author Zheng Jie
  * @date 2018-11-30
  */
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class AuthUserDto {
 
     @NotBlank
