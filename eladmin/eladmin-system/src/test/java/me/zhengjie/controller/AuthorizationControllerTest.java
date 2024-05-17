@@ -1,4 +1,4 @@
-package me.zhengjie;
+package me.zhengjie.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
