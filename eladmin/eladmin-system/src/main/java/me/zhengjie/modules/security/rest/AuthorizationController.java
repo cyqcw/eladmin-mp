@@ -78,6 +78,10 @@ public class AuthorizationController {
     public ResponseEntity<Object> login(@Validated @RequestBody AuthUserDto authUser, HttpServletRequest request) throws Exception {
         // 密码解密
         String password = RsaUtils.decryptByPrivateKey(RsaProperties.privateKey, authUser.getPassword());
+        if (password.length()<6 || password.length()>18) {
+            throw new BadRequestException("密码长度不正确");
+        }
+
         log.info("用户登录：{}, password: {}", authUser.getUsername(), password);
 //        // 查询验证码
 //        String code = (String) redisUtils.get(authUser.getUuid());

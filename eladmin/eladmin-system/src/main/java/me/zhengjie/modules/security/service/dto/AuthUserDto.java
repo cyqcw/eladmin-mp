@@ -31,12 +31,11 @@ import javax.validation.constraints.Size;
 public class AuthUserDto {
 
     @NotBlank
-    @Size(min = 3, max = 30) // @Size注解不能确保username不为null
+    @Size(min = 3, max = 30, message = "用户名长度不正确") // @Size注解不能确保username不为null
     private String username;
 
     @NotBlank
-    @Size(min = 6, max = 18)
-    @Pattern(regexp = "^[a-zA-Z0-9_]*$", message = "密码格式不正确")
+    @Size(min = 128, max = 128, message = "密文长度不正确")
     private String password;
 
     private String code;
