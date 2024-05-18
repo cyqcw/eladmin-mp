@@ -35,7 +35,7 @@ public class AuthUserDto {
     private String username;
 
     @NotBlank
-    @Size(min = 128, max = 128, message = "密文长度不正确")
+    @Size(max = 128, message = "密文长度不正确")
     private String password;
 
     private String code;
