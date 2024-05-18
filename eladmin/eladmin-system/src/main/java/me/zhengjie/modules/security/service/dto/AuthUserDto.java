@@ -18,6 +18,7 @@ package me.zhengjie.modules.security.service.dto;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /**
@@ -35,6 +36,7 @@ public class AuthUserDto {
 
     @NotBlank
     @Size(min = 6, max = 18)
+    @Pattern(regexp = "^[a-zA-Z0-9_]*$", message = "密码格式不正确")
     private String password;
 
     private String code;
