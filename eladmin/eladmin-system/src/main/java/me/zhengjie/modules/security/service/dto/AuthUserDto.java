@@ -18,6 +18,7 @@ package me.zhengjie.modules.security.service.dto;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 /**
  * @author Zheng Jie
@@ -29,9 +30,11 @@ import javax.validation.constraints.NotBlank;
 public class AuthUserDto {
 
     @NotBlank
+    @Size(min = 3, max = 30) // @Size注解不能确保username不为null
     private String username;
 
     @NotBlank
+    @Size(min = 6, max = 18)
     private String password;
 
     private String code;
