@@ -1,0 +1,19 @@
+# 等价类划分
+cyqcw,123456_cyqcw,用户名或密码错误
+ ,123456_cyqcw,username: 用户名不能为空
+cy,123456_cyqcw,username: 用户名长度不正确
+cyqcwcyqcwcyqcwcyqcwcyqcwcyqcwcyqcw,123456_cyqcw,username: 用户名长度不正确
+cyqcw, ,密码格式不正确
+cyqcw,12345,密码格式不正确
+cyqcw,1234567891234567891,密码格式不正确
+cyqcw,123456.,密码格式不正确
+# 边界值测试
+cyqcwcyqcwcyqcw,123456_cyqcw,用户名或密码错误
+cyq,123456_cyqcw,用户名或密码错误
+cyqc,123456_cyqcw,用户名或密码错误
+cyqcwcyqcwcyqcwcyqcwcyqcwcyqc,123456_cyqcw,用户名或密码错误
+cyqcwcyqcwcyqcwcyqcwcyqcwcyqcw,123456_cyqcw,用户名或密码错误
+cyqcwcyqcwcyqcw,123456,用户名或密码错误
+cyqcwcyqcwcyqcw,1234567,用户名或密码错误
+cyqcwcyqcwcyqcw,12345678912345678,用户名或密码错误
+cyqcwcyqcwcyqcw,123456789123456789,用户名或密码错误

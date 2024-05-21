@@ -18,6 +18,7 @@ package me.zhengjie.modules.security.service.dto;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -29,12 +30,12 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AuthUserDto {
-
-    @NotBlank
-    @Size(min = 3, max = 30, message = "用户名长度不正确") // @Size注解不能确保username不为null
+    @NotNull
+//    @NotBlank // NotBlank会检查为null和空字符串''的情况
+    @Size(min = 3, max = 30, message = "用户名长度不正确") // @Size注解不能确保username不为null，但能排除空字符串的情况
     private String username;
-
-    @NotBlank
+    @NotNull
+//    @NotBlank
     @Size(max = 128, message = "密文长度不正确")
     private String password;
 

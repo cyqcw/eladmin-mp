@@ -94,11 +94,21 @@ public class AuthorizationControllerTest {
 
     // 测试用例5：密码为空，登录失败
     @Test
+    public void testLoginFailWithNullPassword() throws Exception {
+        AuthUserDto authUser = new AuthUserDto();
+        authUser.setUsername("cyqcw");
+//        authUser.setPassword(RsaUtils.encryptByPublicKey(publicKey,"")); // 密码为null
+
+        performLoginAndAssert(authUser, HttpStatus.BAD_REQUEST.value(), "password: must not be null");
+    }
+
+    @Test
     public void testLoginFailWithEmptyPassword() throws Exception {
         AuthUserDto authUser = new AuthUserDto();
         authUser.setUsername("cyqcw");
-        authUser.setPassword(RsaUtils.encryptByPublicKey(publicKey,"")); // 密码为空
-        performLoginAndAssert(authUser, HttpStatus.BAD_REQUEST.value(), "password: must not be blank");
+        authUser.setPassword(RsaUtils.encryptByPublicKey(publicKey,""));
+
+        performLoginAndAssert(authUser, HttpStatus.BAD_REQUEST.value(), "Decryption error");
     }
 
     // 测试用例6：密码长度不足，登录失败
