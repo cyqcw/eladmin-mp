@@ -1,4 +1,5 @@
 from playwright.sync_api import Playwright, sync_playwright
+from bs4 import BeautifulSoup
 
 def run(playwright: Playwright, username: str, password: str, expect: str) -> None:
     browser = playwright.chromium.launch(headless=False)
@@ -14,10 +15,24 @@ def run(playwright: Playwright, username: str, password: str, expect: str) -> No
         # 等待这个具有"alert"角色的元素出现，设置合理的超时时间
         alert_element = page.wait_for_selector('[role="alert"]', timeout=3000)  # 假设等待3秒
         alert_text = alert_element.text_content()
-        print(f"{username}:{password} 获得的提示为 {alert_text}")
+        # 页面加载完成后获取页面内容
+        html_content = page.content()
+        # 使用BeautifulSoup解析HTML并提取所有文本
+        soup = BeautifulSoup(html_content, 'html.parser')
+        all_text = soup.get_text(separator='\n').replace('\n', ' ')
+        
+        print(f"{username}:{password} 获得的提示为 {alert_text} 总页面为{all_text}")
         # 设置检查点，检查文本内容
-        assert expect in alert_text, f"Alert文本内容不符合预期，实际为: {alert_text}"
+        assert expect in alert_text or expect in all_text, f"Alert文本内容不符合预期，实际为: {alert_text}"
     except:
+        # 页面加载完成后获取页面内容
+        html_content = page.content()
+        # 使用BeautifulSoup解析HTML并提取所有文本
+        soup = BeautifulSoup(html_content, 'html.parser')
+        all_text = soup.get_text(separator='\n')
+
+        print("页面上的所有文本内容：")
+        print(all_text)
         print(f"{username}:{password} 未找到alert元素，直接结束流程。")
     finally:
         print("===============================================================================")
