@@ -23,9 +23,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import me.zhengjie.base.BaseEntity;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -39,7 +38,6 @@ import java.util.Set;
 @Setter
 @TableName("sys_user")
 public class User extends BaseEntity implements Serializable {
-
     @NotNull(groups = Update.class)
     @TableId(value="user_id", type = IdType.AUTO)
     @ApiModelProperty(value = "ID", hidden = true)
@@ -61,11 +59,13 @@ public class User extends BaseEntity implements Serializable {
     @TableField(exist = false)
     private Dept dept;
 
-    @NotBlank
+    @NotNull(message = "用户名不能为空")
+    @Size(min = 3, max = 30, message = "用户名长度必须在3到30个字符之间")
     @ApiModelProperty(value = "用户名称")
     private String username;
 
-    @NotBlank
+    @NotNull(message = "用户昵称不能为空")
+    @Size(min = 3, max = 30, message = "用户昵称长度必须在3到30个字符之间")
     @ApiModelProperty(value = "用户昵称")
     private String nickName;
 
@@ -74,7 +74,8 @@ public class User extends BaseEntity implements Serializable {
     @ApiModelProperty(value = "邮箱")
     private String email;
 
-    @NotBlank
+    @NotNull(message = "手机号不能为空")
+    @Pattern(regexp = "^1[3-9]\\d{9}$", message = "手机号格式不正确")
     @ApiModelProperty(value = "电话号码")
     private String phone;
 
