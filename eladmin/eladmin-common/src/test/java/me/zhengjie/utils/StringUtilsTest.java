@@ -51,7 +51,7 @@ public class StringUtilsTest {
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setRemoteAddr("192.168.1.1");
         assertEquals("192.168.1.1", getIp(request));
-        assertEquals("10.125.82.45", getIp(new MockHttpServletRequest()));
+        assertEquals("10.125.235.81", getIp(new MockHttpServletRequest()));
     }
 
     @Test

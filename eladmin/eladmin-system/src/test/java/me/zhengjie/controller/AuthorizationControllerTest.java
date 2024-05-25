@@ -56,6 +56,90 @@ public class AuthorizationControllerTest {
      */
     private final String publicKey = "MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBANL378k3RiZHWx5AfJqdH9xRNBmD9wGD2iRe41HdTNF8RUhNnHit5NpMNtGL0NPTSSpPjjI1kJfVorRvaQerUgkCAwEAAQ==";
 
+    /**
+     * 路径覆盖
+     * @throws Exception
+     */
+    @Test
+    public void testPathLoginFailWithShortUsername() throws Exception {
+        AuthUserDto authUser = new AuthUserDto();
+        authUser.setUsername("cy"); // 用户名太短
+        authUser.setPassword(RsaUtils.encryptByPublicKey(publicKey, "123456"));
+        performLoginAndAssert(authUser, HttpStatus.BAD_REQUEST.value(), "username: 用户名长度不正确");
+    }
+
+    @Test
+    public void testLoginSuccessAdmin123456() throws Exception {
+        AuthUserDto authUser = new AuthUserDto();
+        authUser.setUsername("admin");
+        authUser.setPassword(RsaUtils.encryptByPublicKey(publicKey, "123456"));
+        performLoginAndAssert(authUser, HttpStatus.OK.value(), null);
+    }
+
+    @Test
+    public void testLoginFailEmptyUsername() throws Exception {
+        AuthUserDto authUser = new AuthUserDto();
+        authUser.setUsername("");
+        authUser.setPassword(RsaUtils.encryptByPublicKey(publicKey, "123456"));
+        performLoginAndAssert(authUser, HttpStatus.BAD_REQUEST.value(), "username: 用户名长度不正确");
+    }
+
+    @Test
+    public void testLoginSuccessAdminEmptyPassword() throws Exception {
+        AuthUserDto authUser = new AuthUserDto();
+        authUser.setUsername("admin");
+        authUser.setPassword(RsaUtils.encryptByPublicKey(publicKey, ""));
+        performLoginAndAssert(authUser, HttpStatus.BAD_REQUEST.value(), "Decryption error");
+    }
+
+    @Test
+    public void testLoginFailWithEncryptedLengthError() throws Exception {
+        AuthUserDto authUser = new AuthUserDto();
+        authUser.setUsername("admin");
+        authUser.setPassword("123456");
+        performLoginAndAssert(authUser, HttpStatus.BAD_REQUEST.value(), "Decryption error");
+    }
+
+    @Test
+    public void testLoginFailWithShortPassword1() throws Exception {
+        AuthUserDto authUser = new AuthUserDto();
+        authUser.setUsername("admin");
+        authUser.setPassword(RsaUtils.encryptByPublicKey(publicKey, "12345"));
+        performLoginAndAssert(authUser, HttpStatus.BAD_REQUEST.value(), "密码格式不正确");
+    }
+
+    @Test
+    public void testLoginFailWithLongPassword2() throws Exception {
+        AuthUserDto authUser = new AuthUserDto();
+        authUser.setUsername("admin");
+        authUser.setPassword(RsaUtils.encryptByPublicKey(publicKey, "1234567891234567891"));
+        performLoginAndAssert(authUser, HttpStatus.BAD_REQUEST.value(), "密码格式不正确");
+    }
+
+    @Test
+    public void testLoginFailWithInvalidPassword() throws Exception {
+        AuthUserDto authUser = new AuthUserDto();
+        authUser.setUsername("admin");
+        authUser.setPassword(RsaUtils.encryptByPublicKey(publicKey, "123456."));
+        performLoginAndAssert(authUser, HttpStatus.BAD_REQUEST.value(), "密码格式不正确");
+    }
+
+    @Test
+    public void testLoginFailWithInvalidPassword2() throws Exception {
+        AuthUserDto authUser = new AuthUserDto();
+        authUser.setUsername("admin");
+        authUser.setPassword(RsaUtils.encryptByPublicKey(publicKey, "1234567"));
+        performLoginAndAssert(authUser, HttpStatus.BAD_REQUEST.value(), "Bad credentials");
+    }
+
+    @Test
+    public void testLoginSuccessAdmin123456Single() throws Exception {
+        AuthUserDto authUser = new AuthUserDto();
+        authUser.setUsername("admin");
+        authUser.setPassword(RsaUtils.encryptByPublicKey(publicKey, "123456single"));
+        performLoginAndAssert(authUser, HttpStatus.BAD_REQUEST.value(), "Bad credentials");
+    }
+
     // 测试用例1：用户名和密码均有效，登录成功
     @Test
     public void testLoginSuccess() throws Exception {

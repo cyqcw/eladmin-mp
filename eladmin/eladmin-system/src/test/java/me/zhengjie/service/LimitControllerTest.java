@@ -1,4 +1,4 @@
-package me.zhengjie.controller;
+package me.zhengjie.service;
 
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
